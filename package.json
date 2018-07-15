@@ -37,7 +37,7 @@
     "path-exists": "2.1.0",
     "postcss-loader": "1.0.0",
     "promise": "7.1.1",
-    "react-dev-utils": "^5.0.1",
+    "react-dev-utils": "^0.4.2",
     "recursive-readdir": "2.1.0",
     "strip-ansi": "3.0.1",
     "style-loader": "0.13.1",
@@ -52,8 +52,8 @@
     "react-dom": "^15.4.2"
   },
   "scripts": {
-    "start": "GRAPHQL_ENDPOINT=https://api.graph.cool/relay/v1/cjjn7u77e351b0163ki71pw1t node scripts/start.js",
-    "build": "GRAPHQL_ENDPOINT=https://api.graph.cool/relay/v1/cjjn7u77e351b0163ki71pw1t node scripts/build.js",
+    "start": "GRAPHQL_ENDPOINT=https://api.graph.cool/relay/v1/ciyn8rxsl3bs201324sbzf0hx node scripts/start.js",
+    "build": "GRAPHQL_ENDPOINT=https://api.graph.cool/relay/v1/ciyn8rxsl3bs201324sbzf0hx node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
@@ -81,9 +81,7 @@
     }
   },
   "babel": {
-    "plugins": [
-      "react-relay"
-    ],
+    "plugins" : ["react-relay"],
     "presets": [
       "react-app"
     ]
