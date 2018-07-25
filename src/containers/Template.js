@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
 
 class Template extends Component {
 
   render() {
     return (
+<MuiThemeProvider>
       <div>
         <header>
           <h1>TicTacTuring</h1>
@@ -12,6 +15,7 @@ class Template extends Component {
           {this.props.children}
         </main>
       </div>
+</MuiThemeProvider>
     )
   }
 }
