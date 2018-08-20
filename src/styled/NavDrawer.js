@@ -3,10 +3,20 @@ import styled from 'styled-components'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Menu from 'material-ui/svg-icons/navigation/menu'
 
-export const NavToggleButton = () => {
+const StayVisible = styled.div`
+    postition: ablsolute;
+    margin-left: ${(props) => (props.close) ? 'none' : `$(props.width)px`};
+    transition: margin .2s;
+`
+
+export const NavToggleButton = (props) => {
     return(
-        <FloatingActionButton>
-            <Menu/>
-        </FloatingActionButton>
+        <StayVisible
+        {...props}
+        >
+            <FloatingActionButton onTouchTap={props.toggle}>
+                <Menu/>
+            </FloatingActionButton>
+        </StayVisible>
     )
 }
