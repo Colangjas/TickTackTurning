@@ -7,14 +7,14 @@ import {NavToggleButton} from '../styled/NavDrawer'
 
 class NavDrawer extends Component {
     state = {
-        open: true,
-        close: false
+        open: false,
+        width: 250
     }
 
     toggle = () => {
         this.setState((prevState, props) => {
             return{
-                close: !prevState.close
+                open: !prevState.open
             }
 
         })
@@ -25,10 +25,10 @@ class NavDrawer extends Component {
                 <NavToggleButton
                 toggle={this.toggle}
                 width={this.state.width}
-                close={this.state.close}
+                open={this.state.open}
                 />
                 <Drawer
-                open={this.state.close}
+                open={this.state.open}
                 width={this.state.width}
                 >
 
