@@ -14,7 +14,7 @@ class TicTacToe extends Component {
     winner: false,
     win: false
   }
-  
+
   componentWillMount() {
     let height = window.innerHeight
     let width = window.innerWidth
@@ -22,8 +22,8 @@ class TicTacToe extends Component {
     let rows = this.state.rows
     let unit = size / rows
     let coordinates = []
-    for (let y=0; y<rows; y++){
-      for (let x=0; x<rows; x++){
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < rows; x++) {
         coordinates.push([x*unit, y*unit])
       }
     }
@@ -34,23 +34,23 @@ class TicTacToe extends Component {
       unit,
       coordinates
     })
-
   }
 
-  move = () => {
-    //pleaceholder  
+  move = (marker, index) => {
+    console.log('Move made', marker, index)
+    //placeholder
   }
 
   makeAiMove = () => {
-    //pleaceholder
+    //placeholder
   }
 
-  turningTest = () => {
-    //pleaceholder
+  turingTest = () => {
+
   }
 
   recordGame = () => {
-    //pleaceholder
+
   }
 
   render() {
@@ -59,33 +59,32 @@ class TicTacToe extends Component {
       unit,
       rows,
       coordinates,
-      gameOver,
       gameState,
       win,
+      gameOver,
       yourTurn,
       ownMark
     } = this.state
     return (
       <div>
         <Stage
-        width={size}
-        height={size}
+          width={size}
+          height={size}
         >
           <Board
-          unit={unit}
-          size={size}
-          rows={rows}
+            unit={unit}
+            rows={rows}
+            size={size}
           />
           <Squares
-          unit={unit}
-          rows={rows}
-          coordiantes={coordiantes}
-          gameOver={gameOver}
-          gameState={gameState}
-          win={win}
-          yourTurn={yourTurn}
-          ownMark={ownMark}
-          move={this.move}
+            unit={unit}
+            coordinates={coordinates}
+            gameState={gameState}
+            win={win}
+            gameOver={gameOver}
+            yourTurn={yourTurn}
+            ownMark={ownMark}
+            move={this.move}
           />
         </Stage>
       </div>
