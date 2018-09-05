@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Stage} from 'react-konva'
-import {Board} from '../styled/TicTacToe'
+import {Board, Squares} from '../styled/TicTacToe'
 
 class TicTacToe extends Component {
 
@@ -21,11 +21,18 @@ class TicTacToe extends Component {
     let size = (height < width) ? height * .8 : width * .8
     let rows = this.state.rows
     let unit = size / rows
+    let coordinates = []
+    for (let y=0; y<rows; y++){
+      for (let x=0; x<rows; x++){
+        coordinates.push([x*unit, y*unit])
+      }
+    }
 
     this.setState({
       size,
       rows,
-      unit
+      unit,
+      coordinates
     })
 
   }
@@ -50,7 +57,13 @@ class TicTacToe extends Component {
     let {
       size,
       unit,
-      rows
+      rows,
+      coordinates,
+      gameOver,
+      gameState,
+      win,
+      yourTurn,
+      ownMark
     } = this.state
     return (
       <div>
@@ -63,7 +76,17 @@ class TicTacToe extends Component {
           size={size}
           rows={rows}
           />
-          {/* <Squares /> */}
+          <Squares
+          unit={unit}
+          rows={rows}
+          coordiantes={coordiantes}
+          gameOver={gameOver}
+          gameState={gameState}
+          win={win}
+          yourTurn={yourTurn}
+          ownMark={ownMark}
+          move={this.move}
+          />
         </Stage>
       </div>
     )
