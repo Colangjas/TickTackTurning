@@ -4,7 +4,7 @@ import {Board, Squares} from '../styled/TicTacToe'
 
 class TicTacToe extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.combos = [
       [0,1,2],
@@ -52,38 +52,43 @@ class TicTacToe extends Component {
 
   move = (marker, index) => {
     console.log('Move made', marker, index)
-    //TODO: write move code
+    //placeholder
+  }
+
+  makeAiMove = (gameState) => {
+    let otherMark = this.state.otherMark
+    let openSquares = []
+    gameState.forEach( (square, index) => {
+      if(!square) {
+        openSquares.push(index)
+      }
+    })
+    let aiMove = openSquares[this.random(0, openSquares.length)]
+    this.move(aiMove,otherMark)
   }
 
   random = (min, max) => {
     min = Math.ceil(min)
-    max = Math.ceil(max)
+    max = Math.floor(max)
     return Math.floor(Math.random() * (max-min)) + min
   }
 
   winChecker = (gameState) => {
     let combos = this.combos
-    return combos.find((combo)=>{
+    return combos.find( (combo) => {
       let [a,b,c] = combo
-      return (
-        gamestate[a] === gamestate[b]  &&
-        gamestate[a] === gamestate[c]  &&
-        gamestate[a]
-      )
+      return (gameState[a] === gameState[b] &&
+        gameState[a] === gameState[c] &&
+        gameState[a])
     })
   }
-  
-  makeAiMove = () => {
-    //TODO: write AI move code
-  }
-  
+
   turingTest = () => {
-    //TODO: write turning test code
-    
+
   }
-  
+
   recordGame = () => {
-    //TODO: write record game code
+
   }
 
   render() {
