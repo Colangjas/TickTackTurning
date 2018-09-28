@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Stage} from 'react-konva'
 import {Board, Squares} from '../styled/TicTacToe'
+import Relay from 'react-relay'
 
 class TicTacToe extends Component {
 
@@ -50,30 +51,30 @@ class TicTacToe extends Component {
     })
   }
 
-    move = (index, marker) => {
-      this.setState( (prevState, prop) => {
-          let {gameState, yourTurn, gameOver, winner} = prevState
-          yourTurn = !yourTurn
-          gameState.splice(index, 1, marker)
-          let foundWin = this.winChecker(gameState)
-          if (foundWin) {
-            winner = gameState[foundWin[0]]
-          }
-          if (foundWin || !gameState.includes(false)) {
-            gameOver = true
-          }
-          if (!yourTurn && !gameOver) {
-            this.makeAiMove(gameState)
-          }
-          return {
-            gameState,
-            yourTurn,
-            gameOver,
-            win: foundWin || false,
-            winner
-          }
-      })
-    }
+  move = (index, marker) => {
+    this.setState( (prevState, prop) => {
+        let {gameState, yourTurn, gameOver, winner} = prevState
+        yourTurn = !yourTurn
+        gameState.splice(index, 1, marker)
+        let foundWin = this.winChecker(gameState)
+        if (foundWin) {
+          winner = gameState[foundWin[0]]
+        }
+        if (foundWin || !gameState.includes(false)) {
+          gameOver = true
+        }
+        if (!yourTurn && !gameOver) {
+          this.makeAiMove(gameState)
+        }
+        return {
+          gameState,
+          yourTurn,
+          gameOver,
+          win: foundWin || false,
+          winner
+        }
+    })
+  }
 
   makeAiMove = (gameState) => {
     let otherMark = this.state.otherMark
@@ -84,9 +85,9 @@ class TicTacToe extends Component {
       }
     })
     let aiMove = openSquares[this.random(0, openSquares.length)]
-    setTimeout(() => {
+    setTimeout(()=>{
       this.move(aiMove,otherMark)
-    }, 500)
+    }, 1000)
   }
 
   random = (min, max) => {
@@ -99,9 +100,7 @@ class TicTacToe extends Component {
     let combos = this.combos
     return combos.find( (combo) => {
       let [a,b,c] = combo
-      return (gameState[a] === gameState[b] &&
-        gameState[a] === gameState[c] &&
-        gameState[a])
+      return (gameState[a] === gameState[b] && gameState[a] === gameState[c] && gameState[a])
     })
   }
 
@@ -152,4 +151,16 @@ class TicTacToe extends Component {
   }
 }
 
-export default TicTacToe
+export default Relay.createContainer(
+  TicTacToe, {
+    fragments: {
+      viewer: () => Relay.QL`
+        fragment on Viewer {
+          user {
+            id
+          }
+        }
+      `,
+    }
+  }
+)
