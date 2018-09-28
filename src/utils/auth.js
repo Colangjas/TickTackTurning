@@ -1,11 +1,13 @@
-import Auth0JS from 'auth0-js'
+import auth0 from 'auth0-js';
+import Relay from 'react-relay'
 const authDomain = 'colin-thompson.auth0.com'
 const clientId = '4pLd55mND36HYgVP1HMMGHapAX4ytVjo'
-
+import CreateUser from '../mutations/CreateUser'
+import SigninUser from '../mutations/SigninUser'
 
 class AuthService {
 	constructor() {
-		this.lock = new Auth0JS(clientId, authDomain, {
+		this.lock = new auth0(clientId, authDomain, {
 			auth: {
 				params: {
 					scope: 'openid email'
@@ -19,7 +21,27 @@ class AuthService {
 	}
 
 	authProcess = (authResult) => {
-		console.log(authResult)
+		let {
+			email,
+			exp
+		} = authResult.idTokenPayload
+		const idToken = authResult.idToken
+
+		this.signinUser({
+			idToken,
+			email,
+			exp
+		}).then(
+			success => success,
+			rejected => {
+				this.createUser({
+					idToken,
+					email,
+					exp
+				}).then()
+			}
+		)
+
 	}
 
 	showLock() {
@@ -66,6 +88,44 @@ class AuthService {
 		localStorage.removeItem('idToken')
 		localStorage.removeItem('exp')
 		location.reload()
+	}
+
+	createUser = (authFields) => {
+		return new Promise( (resolve, reject) => {
+			Relay.Store.commitUpdate(
+				new CreateUser({
+					email: authFields.email,
+					idToken: authFields.idToken
+				}), {
+					onSuccess: (response) => {
+						this.signinUser(authFields)
+						resolve(response)
+					},
+					onFailure: (response) => {
+						console.log('CreateUser error', response)
+						reject(response)
+					}
+				}
+			)
+		})
+	}
+
+	signinUser = (authFields) => {
+		return new Promise( (resolve, reject) => {
+			Relay.Store.commitUpdate(
+				new SigninUser({
+					idToken: authFields.idToken
+				}), {
+					onSuccess: (response) => {
+						this.setToken(authFields)
+						resolve(response)
+					},
+					onFailure: (response) => {
+						reject(response)
+					}
+				}
+			)
+		})
 	}
 
 }
